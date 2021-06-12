@@ -16,6 +16,8 @@ import MetalKit
 
 public enum Resolution: ResolutionStandard, CustomDebugStringConvertible, Codable, Hashable {
         
+    case zero
+    
     case _540p
     case _720p
     case _1080p
@@ -120,6 +122,7 @@ public enum Resolution: ResolutionStandard, CustomDebugStringConvertible, Codabl
 
     public var name: String {
         switch self {
+        case .zero: return "zero"
         case ._540p: return "540p"
         case ._720p: return "720p"
         case ._1080p: return "1080p"
@@ -194,6 +197,7 @@ public enum Resolution: ResolutionStandard, CustomDebugStringConvertible, Codabl
     
     public var raw: Raw {
         switch self {
+        case .zero: return Raw(w: 0, h: 0)
         case ._540p: return Raw(w: 960, h: 540)
         case ._720p: return Raw(w: 1280, h: 720)
         case ._1080p: return Raw(w: 1920, h: 1080)
@@ -427,6 +431,7 @@ public enum Resolution: ResolutionStandard, CustomDebugStringConvertible, Codabl
     
     public init(size: CGSize) {
         switch size {
+        case Resolution.zero.size: self = .zero
         case Resolution._540p.size: self = ._540p
         case Resolution._720p.size: self = ._720p
         case Resolution._1080p.size: self = ._1080p
