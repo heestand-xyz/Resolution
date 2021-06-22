@@ -315,12 +315,10 @@ public enum Resolution: ResolutionStandard, CustomDebugStringConvertible, Codabl
     }
     
     public static var scale: CGFloat {
-        #if os(iOS)
-        return CGFloat(UIScreen.main.nativeScale)
-        #elseif os(tvOS)
-        return 1.0
-        #elseif os(macOS)
+        #if os(macOS)
         return CGFloat(NSScreen.main?.backingScaleFactor ?? 1.0)
+        #else
+        return CGFloat(UIScreen.main.nativeScale)
         #endif
     }
     
