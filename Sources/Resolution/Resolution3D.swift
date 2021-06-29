@@ -9,7 +9,11 @@
 import CoreGraphics
 import MetalKit
 
-public enum Resolution3D: ResolutionStandard {
+public enum Resolution3D: ResolutionStandard, CustomDebugStringConvertible, Codable, Hashable {
+    
+    public var debugDescription: String {
+        "resolution3d(x: \(x), y: \(y), z: \(z))"
+    }
     
     case _8
     case _16
@@ -80,6 +84,12 @@ public enum Resolution3D: ResolutionStandard {
         return x * y * z
     }
     
+    public var floats: [CGFloat] { [CGFloat(x), CGFloat(y), CGFloat(z)] }
+    public init(floats: [CGFloat]) {
+        guard floats.count == 3 else { self = ._128; return }
+        self = .custom(x: Int(floats[0]), y: Int(floats[1]), z: Int(floats[2]))
+    }
+    
     // MARK: Vector
     
     public struct Vector: Equatable {
@@ -120,6 +130,37 @@ public enum Resolution3D: ResolutionStandard {
     public init(texture: MTLTexture) {
         // CHECK depth is more than 1
         self = .custom(x: texture.width, y: texture.height, z: texture.depth)
+    }
+    
+    // MARK: - Codable
+    
+    enum ResolutionCodingKey: CodingKey {
+        case x
+        case y
+        case z
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: ResolutionCodingKey.self)
+        let x: Int = try container.decode(Int.self, forKey: .x)
+        let y: Int = try container.decode(Int.self, forKey: .y)
+        let z: Int = try container.decode(Int.self, forKey: .z)
+        self = .custom(x: x, y: y, z: z)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: ResolutionCodingKey.self)
+        try container.encode(x, forKey: .x)
+        try container.encode(y, forKey: .y)
+        try container.encode(z, forKey: .z)
+    }
+    
+    // MARK: - Hashable
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+        hasher.combine(z)
     }
     
     // MARK: - Operator Overloads
