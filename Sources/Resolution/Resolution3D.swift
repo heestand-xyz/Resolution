@@ -12,7 +12,7 @@ import MetalKit
 public enum Resolution3D: ResolutionStandard, CustomDebugStringConvertible, Codable, Hashable {
     
     public var debugDescription: String {
-        "resolution3d(x: \(x), y: \(y), z: \(z))"
+        "\(x)x\(y)x\(z)"
     }
     
     case _8
