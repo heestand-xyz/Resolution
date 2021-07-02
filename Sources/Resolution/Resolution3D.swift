@@ -15,6 +15,8 @@ public enum Resolution3D: ResolutionStandard, CustomDebugStringConvertible, Coda
         "\(x)x\(y)x\(z)"
     }
     
+    case zero
+    
     case _8
     case _16
     case _32
@@ -55,6 +57,7 @@ public enum Resolution3D: ResolutionStandard, CustomDebugStringConvertible, Coda
     
     public var raw: Raw {
         switch self {
+        case .zero: return Raw(x: 0, y: 0, z: 0)
         case ._8: return Raw(x: 8, y: 8, z: 8)
         case ._16: return Raw(x: 16, y: 16, z: 16)
         case ._32: return Raw(x: 32, y: 32, z: 32)
