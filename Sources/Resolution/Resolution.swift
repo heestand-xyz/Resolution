@@ -703,3 +703,7 @@ public extension UINSImage {
 public extension MTLTexture {
     var resolution: Resolution { .custom(w: width, h: height) }
 }
+
+public extension CVPixelBuffer {
+    var resolution: Resolution { .custom(w: CVPixelBufferGetWidth(self), h: CVPixelBufferGetHeight(self)) }
+}
