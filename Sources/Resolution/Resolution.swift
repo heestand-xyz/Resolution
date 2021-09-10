@@ -343,6 +343,10 @@ public enum Resolution: ResolutionStandard, CustomDebugStringConvertible, Codabl
         return .raw(raw.flopped)
     }
     
+    public var isSquare: Bool {
+        w == h
+    }
+    
     public var floats: [CGFloat] { [width, height] }
     public init(floats: [CGFloat]) {
         guard floats.count == 2 else { self = ._128; return }
